@@ -1,16 +1,48 @@
 ::::::::::: Note's  ::::::::::::::::::::
+
 1- gitignore generator :- copy ignored files from and pasted in .gitignore files
 2- changes in package.json :- : "dev" : "nodemon src/index.js"
+3- in src folder : mkdir controllers db middlewares models routes utils
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
 
+prettier : it must be installed because when we work in github with team, it will be make same format, and we will ignored conflicts.
+note : but there we will have to create some files eg : .prettierrc , .prettierignore
+
+--------------------------
+code in .prettierrc :
+--------------------------
+{
+    "singleQuoted" : false,
+    "bracketSpacing" : true,
+    "tabWidth" : 2,
+    "trailingComma" : "es5",
+    "semi" : true
+}
+--------------------------
+code in .prettierignore :
+--------------------------
+/.vscode
+/node_modules
+./dist
+
+*.env
+.env
+.env.*
+
+--------------------------
+> npm i -D prettier
+--------------------------
+
+::: what is middlewares : somecode we have to run in between, 
+
+eg :- we got a request and before fulfilled the request from server, I want to set checks.
+
 ::::::::::: data handler , data modeling ::::::::::::::::::::
 
 1- MOON MODIFIER --> https://www.datensen.com/data-modeling/moon-modeler-for-databases.html
-
 2- ERASOR.IO --> https://www.eraser.io/
-
 
 :::::::::: Node Evironment Provider Online :::::::::::::::::
 
@@ -19,5 +51,4 @@
 3- github codespace --> https://github.com/features/codespaces
 
 :::::::::: Nodejs Models Code ::::::::::::
-
 1- stackblitz --> https://stackblitz.com/edit/stackblitz-starters-zf9qqu
