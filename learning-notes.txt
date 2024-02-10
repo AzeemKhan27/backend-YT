@@ -1,0 +1,16 @@
+::::::::::: data handler , data modeling ::::::::::::::::::::
+
+1- MOON MODIFIER --> https://www.datensen.com/data-modeling/moon-modeler-for-databases.html
+
+2- ERASOR.IO --> https://www.eraser.io/
+
+
+:::::::::: Node Evironment Provider Online :::::::::::::::::
+
+1- codesandbox --> https://codesandbox.io/
+2- stackblitz -->  https://stackblitz.com/
+3- github codespace --> https://github.com/features/codespaces
+
+:::::::::: Nodejs Models Code ::::::::::::
+
+1- stackblitz --> https://stackblitz.com/edit/stackblitz-starters-zf9qqu
