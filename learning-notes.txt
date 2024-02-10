@@ -3,9 +3,11 @@
 1- gitignore generator :- copy ignored files from and pasted in .gitignore files
 2- changes in package.json :- : "dev" : "nodemon src/index.js"
 3- in src folder : mkdir controllers db middlewares models routes utils
+4- changes in package.json :- : "dev" : "nodemon -r dotenv/config --experimental-json-modules src/index.js "
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
+> npm i mongoose express dotenv
 
 prettier : it must be installed because when we work in github with team, it will be make same format, and we will ignored conflicts.
 note : but there we will have to create some files eg : .prettierrc , .prettierignore
@@ -20,9 +22,9 @@ code in .prettierrc :
     "trailingComma" : "es5",
     "semi" : true
 }
---------------------------
-code in .prettierignore :
---------------------------
+------------------------------------------------
+code in .prettierignore : >>> npm i -D prettier
+------------------------------------------------
 /.vscode
 /node_modules
 ./dist
@@ -32,7 +34,7 @@ code in .prettierignore :
 .env.*
 
 --------------------------
-> npm i -D prettier
+
 --------------------------
 
 ::: what is middlewares : somecode we have to run in between, 
