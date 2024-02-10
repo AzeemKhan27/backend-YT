@@ -4,10 +4,21 @@
 2- changes in package.json :- : "dev" : "nodemon src/index.js"
 3- in src folder : mkdir controllers db middlewares models routes utils
 4- changes in package.json :- : "dev" : "nodemon -r dotenv/config --experimental-json-modules src/index.js "
+5- addition in app.js eg: import express,cors,cookieParser.
+   app.use(cors({
+      origin : process.env.CORS_ORIGIN,
+      credentials : true
+   }))
+
+6- create a new file in utils folder : 
+  (i)   asyncHandler.js   // here handle async and cover in rapper function
+  (ii)  ApiError.js      // here we handle Api-Errors and over-write nodejs Error constructor.
+  (iii) ApiResponse.js // here we structured our response to send.
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
 > npm i mongoose express dotenv
+> npm i cookie-parser cors          //import in app.js
 
 prettier : it must be installed because when we work in github with team, it will be make same format, and we will ignored conflicts.
 note : but there we will have to create some files eg : .prettierrc , .prettierignore
@@ -34,8 +45,15 @@ code in .prettierignore : >>> npm i -D prettier
 .env.*
 
 --------------------------
-
+NOTES and Details :-
 --------------------------
+
+1- cookieParser :- we used cookieParser for set/access cookies from user browser to perform CRUD operation.
+2- middleware :- middleware helps to give access user to authorized user and protect our routes from un-authorized user and we used in routes.
+diagram link :- https://app.eraser.io/workspace/uWc7n4noBFcLcX6zvde8?origin=share
+
+3- Higher Order Functions :- HOF accept functions as a parameter or return basically it treat as a variable.
+
 
 ::: what is middlewares : somecode we have to run in between, 
 
