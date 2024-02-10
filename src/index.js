@@ -1,3 +1,4 @@
+// require('dotenv').config()   // it will be working properly but we are using modules in nodejs
 import dotenv from 'dotenv';
 dotenv.config = ({path : './env'});
 
