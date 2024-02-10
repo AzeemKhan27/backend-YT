@@ -1,3 +1,10 @@
+::::::::::: Note's  ::::::::::::::::::::
+1- gitignore generator :- copy ignored files from and pasted in .gitignore files
+2- changes in package.json :- : "dev" : "nodemon src/index.js"
+
+:::::::::::Package Installed ::::::::::::::
+> npm i -D nodemon
+
 ::::::::::: data handler , data modeling ::::::::::::::::::::
 
 1- MOON MODIFIER --> https://www.datensen.com/data-modeling/moon-modeler-for-databases.html
