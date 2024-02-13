@@ -11,9 +11,15 @@
    }))
 
 6- create a new file in utils folder : 
-  (i)   asyncHandler.js   // here handle async and cover in rapper function
-  (ii)  ApiError.js      // here we handle Api-Errors and over-write nodejs Error constructor.
-  (iii) ApiResponse.js // here we structured our response to send.
+
+    (i)   asyncHandler.js   // here handle async and cover in rapper function
+    (ii)  ApiError.js      // here we handle Api-Errors and over-write nodejs Error constructor.
+    (iii) ApiResponse.js // here we structured our response to send.
+
+7- create 2 models in models folder : user.modeler.model, video.model.js 
+
+
+ 
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
@@ -22,6 +28,9 @@
 
 prettier : it must be installed because when we work in github with team, it will be make same format, and we will ignored conflicts.
 note : but there we will have to create some files eg : .prettierrc , .prettierignore
+
+> npm i mongoose-aggregate-paginate-v2
+> npm i bcrypt jsonwebtoken
 
 --------------------------
 code in .prettierrc :
