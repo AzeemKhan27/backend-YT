@@ -1,4 +1,4 @@
-::::::::::: Note's  ::::::::::::::::::::
+::::::::::: Notes  ::::::::::::::::::::
 
 1- gitignore generator :- copy ignored files from and pasted in .gitignore files
 2- changes in package.json :- : "dev" : "nodemon src/index.js"
@@ -20,6 +20,45 @@
 
 8- create account in cloudinary SDK: -
    Link :- https://console.cloudinary.com/pm/c-6ae8a78a674ee219ff3c1acdd98303/getting-started
+
+9- :::::::::::::::::::::::: Headers ::::::::::::::::::::::::::::::   
+
+    REQUEST HEADER --> FROM CLIENT (COMING DATA FROM CLIENT)
+    RESPONSE HEADER --> FROM SERVER (COMING DATA FROM SERVER)
+    REPRESENTATION HEADER --> ENCODING/COMPRESSION
+    PAYLOAD HEADER --> DATA
+
+    META DATA :- Key value sent along with request and response.
+
+
+  ||||  Most Common Headers : |||||
+
+    Accept : application/json
+    User-Agent --> it tells request comes from which application eg: POSTMAN, User
+    Authorization --> Bearer token
+    Content-Type  --> what we are sending like "images,video.
+    Cookie        --> We passed information object in cookies like "user login time limit" etc
+    Cache-Control --> when we expire data from server if data want to in control in network.
+
+  |||||  CORS  |||||
+
+  Access-Control-Allow-Origin -->
+  Access-Control-Allow-Credentials -->
+  Access-Control-Allow-Method -->
+
+  ||||  Security ||||
+
+  Cross-Origin-Embedder-Policy -->
+  Cross-Origin-Opener-Policy -->
+  Content-Security-Policy -->
+  X-XSS-Protection -->
+
+  :::::  HTTP STATUS CODE :::::
+  100 - 199  ---> Informational
+  200 - 299  ---> Success
+  300 - 399  ---> Redirection
+  400 - 499  ---> Client Error
+  500 - 599  ---> Server Error
 
 
 :::::::::::Package Installed ::::::::::::::
