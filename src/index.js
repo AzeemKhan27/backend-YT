@@ -1,5 +1,7 @@
 // require('dotenv').config()   // it will be working properly but we are using modules in nodejs
+
 import dotenv from 'dotenv';
+import { app } from "./app.js";
 dotenv.config = ({path : './env'});
 
 import connectDB from "./db/index.js";

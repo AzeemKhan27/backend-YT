@@ -16,4 +16,10 @@ app.use(express.static("public"))                                //this middlewa
 app.use(cookieParser());                                         //we used cookieParser for set/access cookies from user browser to perform CRUD operation.
 
 
+//Routes Import
+import userRoutes from "./routes/user.routes.js";
+
+//Routes Declaration and using middlewares.
+app.use("/api/v1/users", userRoutes);
+
 export { app }

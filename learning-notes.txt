@@ -60,6 +60,12 @@
   400 - 499  ---> Client Error
   500 - 599  ---> Server Error
 
+  Diagram detailed link ==> https://app.eraser.io/workspace/05WNkLLTPZ8YS628n8w0?origin=share
+
+(10) 
+ - controllers and router file created and routers.
+ - imported in app.js
+ - using middlewares.
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
