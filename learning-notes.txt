@@ -8,7 +8,7 @@
    app.use(cors({
       origin : process.env.CORS_ORIGIN,
       credentials : true
-   }))
+   }))   
 
 6- create a new file in utils folder : 
 
@@ -18,8 +18,9 @@
 
 7- create 2 models in models folder : user.modeler.model, video.model.js 
 
+8- create account in cloudinary SDK: -
+   Link :- https://console.cloudinary.com/pm/c-6ae8a78a674ee219ff3c1acdd98303/getting-started
 
- 
 
 :::::::::::Package Installed ::::::::::::::
 > npm i -D nodemon
