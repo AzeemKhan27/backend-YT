@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended : true, limit: "16kb"}));   //this middlewa
 app.use(express.static("public"))                                //this middleware allows to store files/images, and giving access to all.
 app.use(cookieParser());                                         //we used cookieParser for set/access cookies from user browser to perform CRUD operation.
 
-
+ 
 //Routes Import
 import userRoutes from "./routes/user.routes.js";
 
