@@ -8,15 +8,19 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 const generateAccessAndRefreshToken = async(userId) => {
     try {   
         const user = await User.findById(userId);
-        const accessToken = user.generateAccessToken()    //generateAccessToken() and generateRefreshToken() defined in user model.
-        const refreshToken = user.generateRefreshToken()  //generateRefreshToken we can save in DB.
-        
+       
+        const accessToken = await user.generateAccessToken()    //generateAccessToken() and generateRefreshToken() defined in user model.
+    
+        const refreshToken = await user.generateRefreshToken()  //generateRefreshToken we can save in DB.
+
         user.refreshToken = refreshToken;
+       
         await user.save({ validateBeforeSave : false })
 
         return { accessToken, refreshToken }
 
     } catch (error) {
+        console.error("Error generating tokens METHOD : == top =>", error);
         throw new ApiError(500,"Something went wrong while generating access and refresh token.")
     }
 };
@@ -91,7 +95,6 @@ const registerUser = asyncHandler( async (req,res) => {
     return res.status(201).json(
        new ApiResponse(200, createdUser, "User created successfully.")
     )
-
 })
 
 //login user
@@ -107,14 +110,18 @@ const loginUser = asyncHandler( async (req,res) => {
 
     const {email, username, password} = req.body;
    
-    if (!username || !email) {
+    // if (!(username || email)) {
+    //     throw new ApiError(400,"username or email is required.")
+    // }
+    
+    if (!username && !email) {
         throw new ApiError(400,"username or email is required.")
     }
 
     const user = await User.findOne({
         $or:[{email},{username}]
     })
-
+ 
     if(!user){
         throw new ApiError(400,"User not found");
     }
@@ -136,6 +143,7 @@ const loginUser = asyncHandler( async (req,res) => {
         secure : true
     }
 
+    console.log("refreshToken :: > ",refreshToken);
     return res
     .status(200)
     .cookie("accessToken", accessToken, options)
