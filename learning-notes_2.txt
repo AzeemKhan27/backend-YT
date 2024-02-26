@@ -46,3 +46,7 @@
 
   Diagram detailed link ==> https://app.eraser.io/workspace/05WNkLLTPZ8YS628n8w0?origin=share
 
+  ## Important:-
+  
+  TOKEN :- jwt send token to user in encrypted form but we saved token in raw form in DB.
+
