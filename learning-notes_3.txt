@@ -1,0 +1,44 @@
+
+ :::::::::::::::::::::::: Aggregation ::::::::::::::::::::::::::::::   
+  
+(1) $lookup is pipeline of Aggregation, and we use it to join our one document to another document.
+(2) $project : $project pipeline will return selected fields from the document.
+(3) $match : $match pipeline used for filter fields in the document.
+(4) $addFields : $addFields pipeline use for add field in the document
+    (a) $in : 
+
+ for example : [
+  {
+    $lookup: {
+      from: "author",
+      localField: "author_id",
+      foreignField: "_id",
+      as: "author_details"      // ---> we gives this name to store all fields inside this variable.
+    }
+  }
+]
+
+note: $lookup returns Array by default.
+
+(2) $addFields pipeline: used for add new fields.
+ Note :  1- here we are converting "author_details" array into object dataType.
+for example : 
+            [
+                    {
+                $lookup: {
+                  from: "author",
+                  localField: "author_id",
+                  foreignField: "_id",
+                  as: "author_details"      // ---> we gives this name to store all fields inside this variable.
+                }
+              },
+              $addFields:{
+                author_details : {
+                  // $first : "$author_details"
+                              OR
+                     $arrayElementAt : ["$author_details", 0]   
+                }
+              }
+            ]
+
+
