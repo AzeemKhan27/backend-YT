@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import  jwt  from "jsonwebtoken"
+import { deleteOldImage } from "../utils/oldImageDelete.js"
 
 // making method for generate and refresh tokens because it will increase reusability of code.
 const generateAccessAndRefreshToken = async(userId) => {
@@ -268,7 +269,7 @@ const changePassword = asyncHandler(async(req,res,next)=>{
 const getCurrentUser = asyncHandler(async(req,res,next)=>{
     return res
     .status(200)
-    .json(200,req.user,"current user fetched successfully!")
+    .json(new ApiResponse(200,req.user,"current user fetched successfully!"))
 });
 
 const updateAccountDetails = asyncHandler(async(req,res,next)=>{
@@ -287,6 +288,7 @@ const updateAccountDetails = asyncHandler(async(req,res,next)=>{
            }
        },
         {new : true}
+
         ).select("-password")
 
         return res
@@ -295,12 +297,16 @@ const updateAccountDetails = asyncHandler(async(req,res,next)=>{
 })
 
 const updateUserAvatar = asyncHandler(async(req,res,next)=>{
-    const avatarLocalPath = req.file?.path;
+    const avatarLocalPath = req.file?.path;  // this path coming from postman or client-side.
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is missing.");
     }
 
+    const oldAvatarPath = req.user?.avatar;  // this "req.user?.avatar" will be old image path.
+    await deleteOldImage(oldAvatarPath)      //deleteOldImage() := delete the old avatar file from cloudinary server.
+
+    // upload the avatar
     const avatar = await uploadOnCloudinary(avatarLocalPath);
 
     if(!avatar.url){
