@@ -18,8 +18,10 @@ app.use(cookieParser());                                         //we used cooki
  
 //Routes Import
 import userRoutes from "./routes/user.routes.js";
+import videoRouter from "./routes/video.routes.js"
 
 //Routes Declaration and using middlewares.
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/videos", videoRouter);
 
 export { app }
