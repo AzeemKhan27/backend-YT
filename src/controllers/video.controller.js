@@ -10,11 +10,72 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
+
+    const find = await Video.findOne()
+    return res.status(200).json(new ApiResponse(200, find, "retrieved videos."))
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description} = req.body
+    const { title, description } = req.body
     // TODO: get video, upload to cloudinary, create video
+
+    //checking video file is included in request or not.
+    if(!req.files || !req.files.videoFile || !Array.isArray(req.files.videoFile) || req.files.videoFile.length === 0){
+        return res.status(400).json(new ApiResponse(400, {}, 'Both video file and thumbnail are required.'));
+    }
+
+    try {
+        const videoLocalPath = req.files.videoFile[0].path;
+        const thumbnailLocalPath = req.files.thumbnail[0].path; 
+        
+        //uploading thee video to cloudinary
+        const videoUploadResponse = await uploadOnCloudinary(videoLocalPath);
+
+        console.log("--> video response :" ,videoUploadResponse.secure?.url)
+        
+        //check video uploaded or not
+        if(!videoUploadResponse){
+           throw new ApiError(500,"failed to upload the video to cloudinary.")
+        }
+
+        //extract the video entry in the database
+        const videoUrl = videoUploadResponse.secure?.url;
+        
+        console.log("--> video response 2:" ,videoUploadResponse.secure.url)
+        
+        //uploading thee thumbnail to cloudinary
+        const thumbnailUploadResponse = await uploadOnCloudinary(thumbnailLocalPath);
+
+        if(!thumbnailUploadResponse){
+            throw new ApiError(500,"failed to upload the thumbnail to cloudinary.")
+        }
+
+        //extract the video entry in the database
+        const thumbnailUrl = thumbnailUploadResponse.secure.url;
+
+        //Creating and storing video in db
+        const addVideo = await Video.create({title, description , videoUrl, thumbnailUrl});
+
+        //checking created video or not
+        if(!addVideo){
+            throw new ApiError(500,"Failed to create video entry.");
+        }
+
+        //finding it on Video model
+        const checkStoredVideo = await Video.findById(addVideo._id);
+
+        if(!checkStoredVideo){
+            throw new ApiError(500,"failed to find video")
+        }
+
+        return res.status(200)
+                  .json(new ApiResponse(200,checkStoredVideo,"video uploaded successfully with given data."))
+
+    } catch (error) {
+        return res.status(500)
+                  .json(new ApiResponse(500,{},`Internal Server Error : ${error.message}`));
+    }
+
 })
 
 const getVideoById = asyncHandler(async (req, res) => {
