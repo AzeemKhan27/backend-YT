@@ -16,12 +16,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description, duration  } = req.body
+    const { title, description } = req.body
     // TODO: get video, upload to cloudinary, create video
 
     //checking video file is included in request or not.
     if(
-            !title || !description || !duration || 
+            !title || !description || 
             !req.files || !req.files.videoFile || 
             !Array.isArray(req.files.videoFile) || 
             req.files.videoFile.length === 0 ||
@@ -47,17 +47,18 @@ const publishAVideo = asyncHandler(async (req, res) => {
         if(!videoUploadResponse || !thumbnailUploadResponse){
            throw new ApiError(500,"failed to upload the video or thumbnail to cloudinary.")
         }else{
-            console.log("working fine...")
+            console.log("both file videFile and thumbnail is uploaded to cloudinary successfully.")
         }
 
         //extract the video entry in the database
         const videoUrl = videoUploadResponse?.secure_url;
+        const videoDuration = videoUploadResponse?.duration;  //taking duration of video from cloudinary
         
         //extract the video entry in the database
         const thumbnailUrl = thumbnailUploadResponse?.secure_url;
 
         //Creating and storing video in db
-        const addVideo = await Video.create({title, description, duration, videoFile:videoUrl, thumbnail:thumbnailUrl});
+        const addVideo = await Video.create({title, description, duration:videoDuration , videoFile:videoUrl, thumbnail:thumbnailUrl});
         
         //checking created video or not
         if(!addVideo){
@@ -77,8 +78,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     } catch (error) {
         return res.status(500)
                   .json(new ApiResponse(500,{},`Internal Server Error : ${error.message}`));
-    }
-
+    } 
 })
 
 const getVideoById = asyncHandler(async (req, res) => {
