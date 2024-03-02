@@ -35,32 +35,29 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
     try {
         const videoLocalPath = req.files.videoFile[0].path;
-        const thumbnailLocalPath = req.files.thumbnail[0].path; 
+        const thumbnailLocalPath = req.files.thumbnail[0].path;
         
         //uploading thee video to cloudinary
         const videoUploadResponse = await uploadOnCloudinary(videoLocalPath);
 
+        //uploading thee thumbnail to cloudinary
+        const thumbnailUploadResponse = await uploadOnCloudinary(thumbnailLocalPath);
 
         //check video uploaded or not
-        if(!videoUploadResponse){
-           throw new ApiError(500,"failed to upload the video to cloudinary.")
+        if(!videoUploadResponse || !thumbnailUploadResponse){
+           throw new ApiError(500,"failed to upload the video or thumbnail to cloudinary.")
+        }else{
+            console.log("working fine...")
         }
 
         //extract the video entry in the database
         const videoUrl = videoUploadResponse?.secure_url;
         
-        //uploading thee thumbnail to cloudinary
-        const thumbnailUploadResponse = await uploadOnCloudinary(thumbnailLocalPath);
-
-        if(!thumbnailUploadResponse){
-            throw new ApiError(500,"failed to upload the thumbnail to cloudinary.")
-        }
-
         //extract the video entry in the database
         const thumbnailUrl = thumbnailUploadResponse?.secure_url;
 
         //Creating and storing video in db
-        const addVideo = await Video.create({title, description, duration, videoUrl, thumbnailUrl});
+        const addVideo = await Video.create({title, description, duration, videoFile:videoUrl, thumbnail:thumbnailUrl});
         
         //checking created video or not
         if(!addVideo){
@@ -78,7 +75,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
                   .json(new ApiResponse(200,checkStoredVideo,"video uploaded successfully with given data."))
 
     } catch (error) {
-        console.log("CATCH BLOCK : > ERRIR == >", error.message)
         return res.status(500)
                   .json(new ApiResponse(500,{},`Internal Server Error : ${error.message}`));
     }
