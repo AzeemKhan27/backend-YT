@@ -14,8 +14,16 @@ const uploadOnCloudinary = async function(localFilePath){
         const response = await cloudinary.uploader.upload(localFilePath,{
             resource_type : "auto"   //type of file like video,image,raw etc
         })
+         
+        if(response.video && response.video.length !== undefined && response.duration){
+            let durationInSeconds = parseInt(response.duration)
+            console.log("===> clodinary response :",durationInSeconds)
+
+            //update the response object wiht the duration
+            response.duration = durationInSeconds;
+        }
+        
         //file has been uploaded successfully.
-        // console.log("file is uploaded successfully on cloudinary", response.url);
 
         fs.unlinkSync(localFilePath);  //if image uploaded successfully then delete automatically.
         return response

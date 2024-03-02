@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import  jwt  from "jsonwebtoken"
 import { deleteOldImage } from "../utils/oldImageDelete.js"
 
+
 // making method for generate and refresh tokens because it will increase reusability of code.
 const generateAccessAndRefreshToken = async(userId) => {
     try {   
