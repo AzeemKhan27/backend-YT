@@ -121,18 +121,79 @@ const getVideoById = asyncHandler(async (req, res) => {
 })
 
 const updateVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
+    const { videoId } = req.params;
     //TODO: update video details like title, description, thumbnail
+
+    try {
+        const { title , description, thumbnail } = req.body;
+
+        //update video details using findOneAndUpdate
+        const updatedVideo = await Video.findOneAndUpdate(
+            { _id: videoId },
+            {$set : { title, description, thumbnail }},
+            { new: true }
+        );
+
+        //if the video does not exist throw 404 error:
+        if(!updatedVideo) {
+            console.log(`Video not found`,videoId);
+            throw new ApiError(404, "video not found.");
+        }
+
+        //Respond with success message and updated video
+        return res.status(200).json(new ApiResponse(200, updatedVideo, "video updated successfully."));
+
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500,{},`Could not update video details || Internal Server Error.`))
+    }
 
 })
 
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
+
+    try {
+        const result = await Video.deleteOne({
+            _id: videoId
+        });
+
+        //Check if the video was deleted
+        if(result.deletedCount === 0){
+            console.log(`Video not found`, videoId);
+            throw new ApiError(404, "video not found.");
+        }
+
+        //Respond with success response
+        return res.status(200).json(new ApiResponse(200, {}, "video deleted successfully."));
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500,{},`Could not delete video`))
+    }
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
+    const { videoId } = req.params;
+
+    try{
+      //Update the publish status directly in db
+      const updatedVideo = await Video.findByIdAndUpdate(
+        videoId,
+        { $set : { isPublished: { $not : "$isPublished" } } },
+        { new: true }
+      );
+
+      if(!updatedVideo){
+        console.log("video not found",videoId);
+        throw new ApiError(404, "video not found.");
+      }
+
+      //Response wiht success messgae
+
+      return res.status(200).json(new ApiResponse(200,updatedVideo,"Published successfully."))
+
+    }catch(error){
+       return res.status(500).json(new ApiResponse(500,{},"Could not toggle"));
+    }
 })
 
 export {
