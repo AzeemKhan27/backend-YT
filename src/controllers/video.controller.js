@@ -8,34 +8,38 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
-    //TODO: get all videos based on query, sort, pagination
+    try {
+        const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
+        //TODO: get all videos based on query, sort, pagination
+        
+        let filter = {};
     
-    let filter = {};
-
-    if(query){
-        filter = { $text: { $search: query }};
-    }
-
-    if(userId){
-        filter.owner = userId;
-    }
-
-    const options = {
-        page: parseInt(page, 10),
-        limit: parseInt(limit, 10),
-        lean: true,
-        sort: sortBy ? { [sortBy]: sortType === 'desc' ? -1 : 1 } : { createdAt: -1 },
-    };
-
-    if(!Videos){
-        return res.status(404).json(new ApiResponse(404, {}, 'No videos found.'));
-    }
-
-    // Retrieve paginated videos based on the filter and options
-    const Videos = await Video.aggregatePaginate(filter, options);
+        if(query){
+            filter = { $text: { $search: query }};
+        }
     
-    return res.status(200).json(new ApiResponse(200, Videos, "Retrieved videos."))
+        if(userId){
+            filter.owner = userId;
+        }
+    
+        const options = {
+            page: parseInt(page, 10),
+            limit: parseInt(limit, 10),
+            lean: true,
+            sort: sortBy ? { [sortBy]: sortType === 'desc' ? -1 : 1 } : { createdAt: -1 },
+        };
+    
+        if(!Videos){
+            return res.status(404).json(new ApiResponse(404, {}, 'No videos found.'));
+        }
+    
+        // Retrieve paginated videos based on the filter and options
+        const Videos = await Video.aggregatePaginate(filter, options);
+        
+        return res.status(200).json(new ApiResponse(200, Videos, "Retrieved videos."))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500,{},"Internal Server Error"));
+    }
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {
